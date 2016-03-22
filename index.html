@@ -25,15 +25,31 @@
             <div>
                 <template v-if="input_not_null">
                     <span>您的输入：{{name}}</span>
-                    <span>很方面的数据绑定呀</span>
+                    <span>很方面的数据绑定</span>
                 </template>
-                <span v-else>{{name ? '':'快输入你的名字吧'}}</span>
+                <span v-else>{{name ? '':'输入你的名字'}}</span>
                 <div data-age="{{person.age}}">{{{hr_html}}}</div>
                 <div v-bind:class="[style.color_red]" v-bind:style="cssObj">computed_age:{{age}},data_person_age:{{person.age}}</div>
                 <div v-bind:class="{'color_red':input_not_null}" v-bind:style="{fontSize:fontSize + 'px'}">{{watch_name}}</div>
             </div>
         </div>
-        <!--<script src="./widget/popup/app.js"></script>-->
+        <!--<div id="example">-->
+            <!--<my-component></my-component>-->
+        <!--</div>-->
+        <!--<div id="grandfather">-->
+            <!--<grandfather>-->
+                <!--<child></child>-->
+            <!--</grandfather>-->
+        <!--</div>-->
+        <div id="third">
+            <third-component></third-component>
+        </div>
+        <div id="parent">
+            <parent>
+                <child></child>
+            </parent>
+            <child></child>
+        </div>
         <script>
             var vm1 = new Vue({
                 el:'#container',
@@ -78,8 +94,49 @@
             });
             vm1.$watch('name',function(val) {
                 this.watch_name = "i'm watching name:" + val;
+            });
+            /**
+             * 组件
+             * */
+//            var MyComponent = Vue.extend({
+//                    template:'<div>MyComponent!!</div>'
+//            });
+//            Vue.component('my-component', MyComponent);
+//            new Vue({
+//                el:'#example'
+//            });
+//            var Child = Vue.extend({
+//                template:'<div>Child!</div>'
+//            });
+//            var Parent = Vue.extend({
+//               template:'<p>parent!</p>',
+//                components:{
+//                    'child':Child
+//                }
+//            });
+//            Vue.component('child',Child);
+//            Vue.component('grandfather',Parent);
+//            new Vue({
+//               el:'#grandfather'
+//            });
+            Vue.component('third-component',{
+                template:'<div>third one</div>'
+            });
+            new Vue({
+                el:'#third'
+            });
+            var Parent = Vue.extend({
+                template:'<span>parent</span>',
+                components:{
+                    'child':{
+                        template:'<p>child</p>'
+                    }
+                }
+            });
+            Vue.component('parent', Parent);
+            new Vue({
+                el:'#parent'
             })
-
         </script>
 	</body>
 </html>
