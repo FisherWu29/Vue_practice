@@ -3,7 +3,7 @@
 	<head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
-		<title id="title">{{title}}</title>
+		<title id="title">basic</title>
 		<link rel="stylesheet" href="static/style/style.css">
         <script src="static/lib/zepto.js"></script>
         <script src="static/lib/vue.js"></script>
@@ -33,23 +33,13 @@
                 <div v-bind:class="{'color_red':input_not_null}" v-bind:style="{fontSize:fontSize + 'px'}">{{watch_name}}</div>
             </div>
         </div>
-        <!--<div id="example">-->
-            <!--<my-component></my-component>-->
-        <!--</div>-->
-        <!--<div id="grandfather">-->
-            <!--<grandfather>-->
-                <!--<child></child>-->
-            <!--</grandfather>-->
-        <!--</div>-->
-        <div id="third">
-            <third-component></third-component>
+        <a href="./component.html">component</a>
+        <a href="./component_communicate.html">component_communicate</a>
+        <div id="child">
+            <h4>child</h4>
+            <parent></parent>
         </div>
-        <div id="parent">
-            <parent>
-                <child></child>
-            </parent>
-            <child></child>
-        </div>
+
         <script>
             var vm1 = new Vue({
                 el:'#container',
@@ -98,45 +88,18 @@
             /**
              * 组件
              * */
-//            var MyComponent = Vue.extend({
-//                    template:'<div>MyComponent!!</div>'
-//            });
-//            Vue.component('my-component', MyComponent);
-//            new Vue({
-//                el:'#example'
-//            });
-//            var Child = Vue.extend({
-//                template:'<div>Child!</div>'
-//            });
-//            var Parent = Vue.extend({
-//               template:'<p>parent!</p>',
-//                components:{
-//                    'child':Child
-//                }
-//            });
-//            Vue.component('child',Child);
-//            Vue.component('grandfather',Parent);
-//            new Vue({
-//               el:'#grandfather'
-//            });
-            Vue.component('third-component',{
-                template:'<div>third one</div>'
-            });
-            new Vue({
-                el:'#third'
+            var Child = Vue.extend({
+                template:'<p>child</p>'
             });
             var Parent = Vue.extend({
-                template:'<span>parent</span>',
-                components:{
-                    'child':{
-                        template:'<p>child</p>'
-                    }
+                components: {
+                    'child': Child
                 }
             });
-            Vue.component('parent', Parent);
+            Vue.component('parent',Parent);
             new Vue({
-                el:'#parent'
-            })
+                el: "#child"
+            });
         </script>
 	</body>
 </html>
