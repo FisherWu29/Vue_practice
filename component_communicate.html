@@ -13,12 +13,35 @@
         <template id="child-template">
             <input v-model="msg">
             <button v-on:click="notify">Dispatch Event</button>
+            <p>what a Vue</p>
         </template>
-
         <!-- 父组件模板 -->
         <div id="events-example">
             <p>Messages: {{ messages | json }}</p>
             <child></child>
+        </div>
+        <!-- 子组件模板2 -->
+        <template id="child2-template">
+            child2_input:<input type="text" v-model="msg"/>
+            <p>from child2-template:{{msg}}</p>
+            <button v-on:click="notice">dispatch from child2</button>
+            <div>
+                <h1>This is my component!</h1>
+                <!--<slot>-->
+                    <!--This will only be displayed if there is no content-->
+                    <!--to be distributed.-->
+                <!--</slot>-->
+            </div>
+        </template>
+        <!-- 父组件模板2 -->
+        <div id="parent2">
+            <p>from parent2-template:{{parentMsg}}</p>
+            parent2_input:<input type="text" v-model="parentMsg"/>
+            <child2 :msg.sync="parentMsg">
+                <p>This is some original content</p>
+                <p>This is some more original content</p>
+                66666
+            </child2>
         </div>
         <script>
             Vue.component('child', {
@@ -29,13 +52,34 @@
                 methods: {
                     notify: function () {
                         if (this.msg.trim()) {
-                            this.$dispatch('child-msg', this.msg)
+                            this.$dispatch('child-msg', this.msg);
                             this.msg = ''
                         }
                     }
                 }
-            })
-
+            });
+            //注册组件2
+            Vue.component('child2',{
+                template:'#child2-template',
+                props:{
+                    msg:{
+//                        type:Number,
+                        twoWay:true
+                    }
+                },
+                data:function() {
+                    return {child2_msg:''}
+                },
+                methods:{
+                    'notice':function() {
+                        if(this.msg.trim()){
+                            console.log(this.msg.trim());
+                            this.$dispatch('dispatch_child',this.msg);
+                            this.msg = ''
+                        }
+                    }
+                }
+            });
             // 启动父组件
             // 将收到消息时将事件推入一个数组
             var parent = new Vue({
@@ -48,6 +92,18 @@
                     'child-msg': function (msg) {
                         // 事件回调内的 `this` 自动绑定到注册它的实例上
                         this.messages.push(msg)
+                    }
+                }
+            });
+            // 启动父组件2
+            var parent2 = new Vue({
+                el:'#parent2',
+                data:{
+                    parentMsg:'parentMsg_in_parent2'
+                },
+                events:{
+                    'dispatch_child':function(msg){
+                        alert(msg);
                     }
                 }
             })

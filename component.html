@@ -49,7 +49,14 @@
                   you can use custom content here to overwrite
                   default content
                 -->
+                This will only be displayed if there is no content
+                to be distributed.
+                <slot>
+                    This will only be displayed if there is no content
+                    to be distributed.
+                </slot>
                 <h3 slot="header">custom header</h3>
+                <h3 slot="body">custom body</h3>
             </modal>
         </div>
         <script>
